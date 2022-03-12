@@ -1,0 +1,29 @@
+{
+  "name": "spark",
+  "version": "1.0.0",
+  "description": "A data repository to get ideas of the ground",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "spark",
+    "metrolink"
+  ],
+  "author": "Matt Cole",
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "bunyan": "^1.8.15",
+    "convict": "^6.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "moment": "^2.29.1",
+    "mongodb": "^4.4.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "supertest": "^6.2.2"
+  }
+}
