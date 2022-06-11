@@ -1,4 +1,3 @@
-
 const referenceToken = process.env.REFERENCE_TOKEN;
 
 const authenticate = (req, next) => {

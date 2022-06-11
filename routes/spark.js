@@ -1,4 +1,3 @@
-// const express = require('express');
 const controller = require('../controller/spark');
 const access = require('../controller/access');
 const config = require('../config/config');

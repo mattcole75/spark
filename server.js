@@ -1,9 +1,3 @@
-// Description: The entry point for the Spark application
-// Developer: Matt Cole
-// Date created: 2022-03-11
-// Change history:
-//  1.
-
 'use strict';
 require('dotenv').config({ path: './config.env' });
 const database = require('./config/database');

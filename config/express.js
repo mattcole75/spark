@@ -1,11 +1,6 @@
-// Description: The App configuration entry point set up
-// Developer: Matt Cole
-// Date created: 2022-03-11
-// Change history:
-//  1. 
-
 const express = require('express');
 const config = require('./config');
+const app = config.get('application');
 const version = config.get('version');
 const morgan = require('morgan');
 
@@ -25,7 +20,7 @@ module.exports = function() {
 
     app.use(morgan('[:date[clf]] :method :url :status :response-time ms - :res[content-length]'));
 
-    app.get('/api/' + version, (req, res) => {
+    app.get('/' + application + '/api/' + version, (req, res) => {
         res.status(200).json({'msg': 'Server is up!'});
     });
 

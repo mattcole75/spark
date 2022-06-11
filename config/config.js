@@ -1,9 +1,3 @@
-// Description: the Core application configuration file
-// Developer: Matt Cole
-// Date created: 2022-01-07
-// Change history:
-//  1. 
-
 const convict = require('convict');
 
 const config = convict({
