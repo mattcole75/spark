@@ -6,11 +6,11 @@ const postSensorData = (req, next) => {
 
     dbConnect
         .collection('sensorData')
-        .insertOne(req, function (err, result) {
+        .insertOne(req, function (err, res) {
         if(err)
-            next({status: 400, msg: err}, null);
+            next({ status: 500, msg: err }, null);
         else
-            next(null, {status: 201});
+            next(null, { status: 201, data: res });
     });
 }
 
@@ -22,11 +22,11 @@ const getSensorData = (req, next) => {
         .collection('sensorData')
         .find({})
         // .limit(200)
-        .toArray(function (err, result) {
+        .toArray(function (err, res) {
         if (err) 
-            next({status: 400, msg: err}, null);
+            next({ status: 500, msg: err }, null);
         else 
-            next(null, {status: 200});
+            next(null, { status: 200, data: res });
         
         });
 };
