@@ -4,7 +4,8 @@
   "description": "A data repository to get ideas of the ground",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "spark": "node server.js",
+    "test": "echo 'db.sensorData.remove({})' | mongo spark && jest"
   },
   "keywords": [
     "spark",
