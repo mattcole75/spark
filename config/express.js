@@ -20,11 +20,12 @@ module.exports = function() {
 
     app.use(morgan('[:date[clf]] :method :url :status :response-time ms - :res[content-length]'));
 
-    app.get('/' + application + '/api/' + version, (req, res) => {
-        res.status(200).json({'msg': 'Server is up!'});
-    });
-
     require('../routes/spark')(app);
+
+    app.use((err, req, res, next) => {
+        console.error(err.stack);
+        res.status(500).send('Something broke!')
+    });
 
     return app;
 };

@@ -6,6 +6,10 @@ const version = config.get('version');
 
 module.exports = (app) => {
 
+    app.get('/', (req, res) => {
+        res.status(200).send({'msg': 'Server is up!'});
+    });
+
     app.post('/' + application + '/api/' + version + '/sensordata', (req, res) => {
 
         res.set('Content-Type', 'application/json');

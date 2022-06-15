@@ -13,8 +13,8 @@ const postSensorData = (req, next) => {
 
     repository.postSensorData(data, (err, data) => {
         if(err) {
-            log.error(`status: ${err.status} POST (postSensorData) v${version} failed error: ${err.msg}`);
-            next(err, null);
+            log.error(`status: ${err.status} POST (postSensorData) v${version} failed error: ${err}`);
+            next({ status: err.status, msg: 'Internal Server Error' }, null);
         } else {
             log.info(`status: ${data.status} POST (postSensorData) v${version} success`);
             next(null, data);
@@ -25,8 +25,8 @@ const postSensorData = (req, next) => {
 const getSensorData = (req, next) => {
     repository.getSensorData(req, (err, data) => {
         if(err) {
-            log.error(`status: ${err.status} GET (getSensorData) v${version} failed error: ${err.msg}`);
-            next(err, null);
+            log.error(`status: ${err.status} GET (getSensorData) v${version} failed error: ${err}`);
+            next({ status: err.status, msg: 'Internal Server Error' }, null);
         } else {
             log.info(`status: ${data.status} GET (getSensorData) v${version} success`);
             next(null, data);

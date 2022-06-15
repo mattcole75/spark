@@ -10,11 +10,6 @@ const PORT = process.env.PORT || 1337;
 
 const app = express();
 
-app.use(function (err, _req, res) {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
-
 database.connectToServer((err) => {
     if (err) {
         console.error(err);
