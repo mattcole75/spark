@@ -11,6 +11,26 @@ npm install
 ## description
 This API is a stand alone system to encourage and enable individuals to develop sensor networks.
 
+## Database
+The system is using MongoDB and a time series setup to optimise the storage of data.
+
+The collection take the following form:
+```
+db.createCollection("sensorData", {
+  timeseries: {
+    timeField: "timestamp",
+    metaField: "id",
+    granularity: "minutes"
+  },
+    expireAfterSeconds: 1209600
+});
+```
+
+An example of an insert statement for the above collection will be:
+```
+db.sensorData.insertOne({id: "RIG-R&D-TMP-003", timestamp: new Date(), value: "22"})
+```
+
 ## Usage
 
 ### POST Sensor Record:
@@ -25,7 +45,8 @@ Requires JSON Header:
 
 Requires JSON Body:
     {
-        The Sensor Payload in JSON format
+        id: 'sensor registered id',
+        value: 20 this must be a numerical value for the aggregate GET request to work correctly
     }
 
 Returns:
@@ -41,11 +62,29 @@ GET http://localhost:1337/spark/api/0.1/sensordata
 
 Requires JSON Header:
     {
-        idToken: 'a pre configured access token'
+        idToken: 'a pre configured access token',
+        param: 'optional sensor ID'
     }
 
 Returns:
-    - 200 ok, returns the stored sensor data
+    - 200 ok, returns the stored sensor data array
+    - 401 Unauthorised
+    - 500 Internal error message
+```
+
+### GET Sensor Records Aggregated:
+This API will return all sensor records aggregated for a report
+```
+GET http://localhost:1337/spark/api/0.1/sensordataaaggregate
+
+Requires JSON Header:
+    {
+        idToken: 'a pre configured access token',
+        param: 'optional sensor ID'
+    }
+
+Returns:
+    - 200 ok, returns the stored sensor data array
     - 401 Unauthorised
     - 500 Internal error message
 ```
@@ -53,7 +92,7 @@ Returns:
 ### GET API Status:
 This API will return the matching locations provided it is in use for all levels.
 ```
-GET http://localhost:1337/spark/api/0.1
+GET http://localhost:1337
 
 
 Returns:

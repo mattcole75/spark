@@ -8,7 +8,7 @@ const postSensorData = (req, next) => {
 
     let data = {
         ...req.body,
-        serverTimestamp: moment().format()
+        timestamp: new Date()
     }
 
     repository.postSensorData(data, (err, data) => {
@@ -34,7 +34,20 @@ const getSensorData = (req, next) => {
     });
 };
 
+const getSensorDatAaggregate = (req, next) => {
+    repository.getSensorDatAaggregate(req, (err, data) => {
+        if(err) {
+            log.error(`status: ${err.status} GET (getSensorDatAaggregate) v${version} failed error: ${err}`);
+            next({ status: err.status, msg: 'Internal Server Error' }, null);
+        } else {
+            log.info(`status: ${data.status} GET (getSensorDatAaggregate) v${version} success`);
+            next(null, data);
+        }
+    });
+};
+
 module.exports = {
     getSensorData: getSensorData,
-    postSensorData: postSensorData
+    postSensorData: postSensorData,
+    getSensorDatAaggregate: getSensorDatAaggregate
 }

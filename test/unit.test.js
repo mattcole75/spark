@@ -2,9 +2,12 @@ const endPoint = require('./endPoint');
 const config = require('../config/config');
 const application = config.get('application');
 const version = config.get('version');
+const moment = require('moment');
 
 let idToken = '7c58e9e7cd20ae44';
 let wrongIdToken = '7c58f9e7cd20ae42';
+
+let sensors = require('./data/sensor.data')
 
 // Post sensor data
 describe('Test the post sensor data functionality', () => {
@@ -15,10 +18,8 @@ describe('Test the post sensor data functionality', () => {
                 idToken: wrongIdToken
             })
             .send({
-                id: 'ALT-TMP-001',
-                location: 'ALT',
-                monitoring: 'CER UPS Temperature',
-                value: 20,
+                id: "RIG-R&D-TMP-003", 
+                value: "22"
             })
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
@@ -32,33 +33,31 @@ describe('Test the post sensor data functionality', () => {
                 idToken: 'adgdfgWER32543KN'
             })
             .send({
-                id: 'ALT-TMP-001',
-                location: 'ALT',
-                monitoring: 'CER UPS Temperature',
-                value: 20,
+                id: "RIG-R&D-TMP-003",
+                value: "22"
             })
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(401)
     });
 
-    
+    sensors.forEach(sensor => {
 
-    it('should return 201 when given an correct token ID', async() => {
-        await endPoint.post(application + '/api/' + version + '/sensordata')
-            .set({
-                "Content-Type": "application/json",
-                idToken: idToken
-            })
-            .send({
-                id: 'ALT-TMP-001',
-                location: 'ALT',
-                monitoring: 'CER UPS Temperature',
-                value: 20,
-            })
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(201)
+        it('should, create a sensor reading record', async () => {
+            await endPoint.post(application + '/api/' + version + '/sensordata')
+                .set({
+                    "Content-Type": "application/json",
+                    idToken: idToken
+                })
+                .send({
+                    id: sensor.id, 
+                    value: sensor.value
+                })
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(201)
+        });
+
     });
 
     it('should deny access to the sensor data given the wrong token ID', async() => {
@@ -75,6 +74,38 @@ describe('Test the post sensor data functionality', () => {
         await endPoint.get(application + '/api/' + version + '/sensordata')
             .set({
                 idToken: idToken
+            })
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+    });
+
+    it('should successfully return all the sensor data given the correct token ID and sensor ID', async() => {
+        await endPoint.get(application + '/api/' + version + '/sensordata')
+            .set({
+                idToken: idToken,
+                param: 'RIG-R&D-TMP-003'
+            })
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+    });
+
+    it('should successfully return all the agrregated sensor data given the correct token ID', async() => {
+        await endPoint.get(application + '/api/' + version + '/sensordataaaggregate')
+            .set({
+                idToken: idToken
+            })
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+    });
+
+    it('should successfully return all the aggregated sensor data given the correct token ID and sensor ID', async() => {
+        await endPoint.get(application + '/api/' + version + '/sensordataaaggregate')
+            .set({
+                idToken: idToken,
+                param: 'RIG-R&D-TMP-003'
             })
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)

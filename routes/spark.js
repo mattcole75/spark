@@ -45,4 +45,22 @@ module.exports = (app) => {
             }
           });
     });
+
+    app.get('/' + application + '/api/' + version + '/sensordataaaggregate', (req, res) => {
+        
+        res.set('Content-Type', 'application/json');
+
+        access.authenticate(req, (err) => {
+            if(err)
+                res.status(err.status).send(err);
+            else {
+                controller.getSensorDatAaggregate(req, (err, data) => {
+                    if(err)
+                        res.status(err.status).send(err);
+                    else
+                        res.status(data.status).send(data);
+                });
+            }
+          });
+    });
 };
