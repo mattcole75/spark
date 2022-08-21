@@ -1,7 +1,4 @@
 const express = require('express');
-const config = require('./config');
-const application = config.get('application');
-const version = config.get('version');
 const morgan = require('morgan');
 
 const allowCrossOriginRequests = (req, res, next) => {
@@ -11,7 +8,7 @@ const allowCrossOriginRequests = (req, res, next) => {
     next();
 };
 
-module.exports = function() {
+module.exports = () => {
 
     const app = express();
     

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "spark": "node server.js",
-    "dbInit": "echo \"db.createCollection('sensorData', { 'timeseries': {timeField: 'timestamp', metaField: 'id', granularity: 'minutes'}, expireAfterSeconds: 60})\" | mongosh spark",
+    "dbInit": "echo \"db.createCollection('sensorData', { 'timeseries': {timeField: 'timestamp', metaField: 'id', granularity: 'minutes'}, expireAfterSeconds: 1209600})\" | mongosh spark",
     "test": "echo 'db.sensorData.deleteMany({}) ' | mongosh spark && jest"
   },
   "keywords": [
