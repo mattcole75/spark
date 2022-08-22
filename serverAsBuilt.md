@@ -9,7 +9,7 @@ Node Express MongoDB Apache  server build for Spark on AWS.
 ## SSH Test
 using your favourite terminal use the following command to start a session:
 ```
-sudo ssh -i [your pem file.pem admin@[your static IP Address]
+sudo ssh -i [your pem file.pem admin@[your static IP Address or Domain]
 ```
 This should connect you to the server instance.
 
@@ -146,7 +146,14 @@ use admin
 db.auth("admin", "[the password]")
 db.createCollection('sensorData', { 'timeseries': {timeField: 'timestamp', metaField: 'id', granularity: 'minutes'}, expireAfterSeconds: 1209600})
 ```
-7 Start the service
+7. Install PM2.
+PM2 can do loads of stuff, however in this instance it allows you to keep spark alive forever, to reload it without downtime.
+```
+sudo npm install pm2 -g
+pm2 start app.js
+```
+
+8. Start the service
 ```
 node server.js &
 ```
