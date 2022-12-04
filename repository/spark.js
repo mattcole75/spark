@@ -17,15 +17,28 @@ const postSensorData = (req, next) => {
 const getSensorData = (req, next) => {
 
     const dbConnect = database.getDb();
-    const { param } = req.headers;
-    let query = null;
+    const { param, startdate, enddate } = req.headers;
 
-    if(param)
+    let query = null;
+    if(param){
         query = { id: param };
+
+        if(startdate != null && enddate != null) {
+            query = {
+                id: param,
+                timestamp:{ 
+                    $gte: new Date(startdate),
+                    $lt: new Date(enddate)
+                }
+                // createdAt:{ $gte:ISODate(“2020-03-01”),$lt:ISODate(“2021-04-01”) }
+            }
+        }
+    }
 
     dbConnect
         .collection('sensorData')
         .find(query)
+        .sort({eventTimestamp: 1})
         // .limit(200)
         .toArray(function (err, res) {
         if (err)
@@ -62,8 +75,23 @@ const getSensorDatAaggregate = (req, next) => {
 
 };
 
+const postPointData = (req, next) => {
+    
+    const dbConnect = database.getDb();
+
+    dbConnect
+        .collection('pointData')
+        .insertOne(req, function (err, res) {
+        if(err)
+            next({ status: 500, msg: err }, null);
+        else
+            next(null, { status: 201, data: res });
+    });
+}
+
 module.exports = {
     getSensorData: getSensorData,
     postSensorData: postSensorData,
-    getSensorDatAaggregate: getSensorDatAaggregate
+    getSensorDatAaggregate: getSensorDatAaggregate,
+    postPointData: postPointData
 }

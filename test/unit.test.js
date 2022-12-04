@@ -7,7 +7,7 @@ const moment = require('moment');
 let idToken = '7c58e9e7cd20ae44';
 let wrongIdToken = '7c58f9e7cd20ae42';
 
-let sensors = require('./data/sensor.data')
+let sensors = require('./data/sensor.data');
 
 // Post sensor data
 describe('Test the post sensor data functionality', () => {

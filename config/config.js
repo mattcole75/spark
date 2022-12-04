@@ -7,7 +7,7 @@ const config = convict({
     },
     application: {
         type: String,
-        default: 'Spark'
+        default: 'spark'
     },
     db: {
         host: {

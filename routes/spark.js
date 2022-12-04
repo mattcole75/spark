@@ -63,4 +63,22 @@ module.exports = (app) => {
             }
           });
     });
+
+    app.post('/' + application + '/api/' + version + '/pointdata', (req, res) => {
+
+        res.set('Content-Type', 'application/json');
+
+        access.authenticate(req, (err) => {
+            if(err)
+                res.status(err.status).send(err);
+            else {
+                controller.postPointData(req, (err, data) => {
+                    if(err)
+                        res.status(err.status).send(err);
+                    else
+                        res.status(data.status).send(data);
+              });
+            }
+        });
+    });
 };
