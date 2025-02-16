@@ -1,3 +1,5 @@
+# configuration
+config.js
 #utility files
 *.log
 *.jpg

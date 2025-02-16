@@ -6,7 +6,7 @@ const postSensorData = (req, next) => {
 
     dbConnect
         .collection('sensorData')
-        .insertOne(req, function (err, res) {
+        .insertMany(req, function (err, res) {
         if(err)
             next({ status: 500, msg: err }, null);
         else

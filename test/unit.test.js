@@ -1,6 +1,6 @@
 const endPoint = require('./endPoint');
 const config = require('../config/config');
-const application = config.get('application');
+const service = config.get('service');
 const version = config.get('version');
 const moment = require('moment');
 
@@ -12,7 +12,7 @@ let sensors = require('./data/sensor.data');
 // Post sensor data
 describe('Test the post sensor data functionality', () => {
     it('should return 401 when given an incorrect token ID', async() => {
-        await endPoint.post(application + '/api/' + version + '/sensordata')
+        await endPoint.post(service + '/api/' + version + '/sensordata')
             .set({
                 "Content-Type": "application/json",
                 idToken: wrongIdToken
@@ -27,7 +27,7 @@ describe('Test the post sensor data functionality', () => {
     });
 
     it('should return 401 when given an random token ID', async() => {
-        await endPoint.post(application + '/api/' + version + '/sensordata')
+        await endPoint.post(service + '/api/' + version + '/sensordata')
             .set({
                 "Content-Type": "application/json",
                 idToken: 'adgdfgWER32543KN'
@@ -44,15 +44,16 @@ describe('Test the post sensor data functionality', () => {
     sensors.forEach(sensor => {
 
         it('should, create a sensor reading record', async () => {
-            await endPoint.post(application + '/api/' + version + '/sensordata')
+            await endPoint.post(service + '/api/' + version + '/sensordata')
                 .set({
                     "Content-Type": "application/json",
                     idToken: idToken
                 })
-                .send({
+                .send([{
                     id: sensor.id, 
-                    value: sensor.value
-                })
+                    value: sensor.value,
+                    eventTimestamp: sensor.eventTimestamp
+                }])
                 .set('Accept', 'application/json')
                 .expect('Content-Type', /json/)
                 .expect(201)
@@ -61,7 +62,7 @@ describe('Test the post sensor data functionality', () => {
     });
 
     it('should deny access to the sensor data given the wrong token ID', async() => {
-        await endPoint.get(application + '/api/' + version + '/sensordata')
+        await endPoint.get(service + '/api/' + version + '/sensordata')
             .set({
                 idToken: wrongIdToken
             })
@@ -71,7 +72,7 @@ describe('Test the post sensor data functionality', () => {
     });
 
     it('should successfully return all the sensor data given the correct token ID', async() => {
-        await endPoint.get(application + '/api/' + version + '/sensordata')
+        await endPoint.get(service + '/api/' + version + '/sensordata')
             .set({
                 idToken: idToken
             })
@@ -81,7 +82,7 @@ describe('Test the post sensor data functionality', () => {
     });
 
     it('should successfully return all the sensor data given the correct token ID and sensor ID', async() => {
-        await endPoint.get(application + '/api/' + version + '/sensordata')
+        await endPoint.get(service + '/api/' + version + '/sensordata')
             .set({
                 idToken: idToken,
                 param: 'RIG-R&D-TMP-003'
@@ -92,7 +93,7 @@ describe('Test the post sensor data functionality', () => {
     });
 
     it('should successfully return all the agrregated sensor data given the correct token ID', async() => {
-        await endPoint.get(application + '/api/' + version + '/sensordataaaggregate')
+        await endPoint.get(service + '/api/' + version + '/sensordataaaggregate')
             .set({
                 idToken: idToken
             })
@@ -102,7 +103,7 @@ describe('Test the post sensor data functionality', () => {
     });
 
     it('should successfully return all the aggregated sensor data given the correct token ID and sensor ID', async() => {
-        await endPoint.get(application + '/api/' + version + '/sensordataaaggregate')
+        await endPoint.get(service + '/api/' + version + '/sensordataaaggregate')
             .set({
                 idToken: idToken,
                 param: 'RIG-R&D-TMP-003'

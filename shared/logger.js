@@ -4,11 +4,11 @@ const config = require('../config/config');
 const logger = () => {
 
     const logger = bunyan.createLogger({
-        name: config.get('application'),
+        name: config.get('service'),
         streams: [{
-            path: process.env.LOG_PATH,
+            path: config.get('logPath')
         }],
-        level: process.env.LOG_LEVEL
+        level: config.get('logLevel')
     });
 
     return logger;   

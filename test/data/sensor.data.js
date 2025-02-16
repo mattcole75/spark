@@ -1,128 +1,154 @@
 
-const moment = require('moment');
-var isodate = require("isodate");
-
-
 const sensorData = [    
     {
         id: "RIG-R&D-TMP-003", 
-        value: 22
+        value: 22,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 22
+        value: 22,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 21
+        value: 21,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 21
+        value: 21,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 21
+        value: 21,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 20
+        value: 20,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 20
+        value: 20,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 20
+        value: 20,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 20
+        value: 20,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 20
+        value: 20,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 20
+        value: 20,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 20
+        value: 20,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 19
+        value: 19,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 19
+        value: 19,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-003",
-        value: 18
+        value: 18,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004", 
-        value: 10
+        value: 10,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 11
+        value: 11,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 12
+        value: 12,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 13
+        value: 13,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 14
+        value: 14,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 15
+        value: 15,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 14
+        value: 14,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 13
+        value: 13,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 12
+        value: 12,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 11
+        value: 11,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 10
+        value: 10,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 9
+        value: 9,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 8
+        value: 8,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 7
+        value: 7,
+        eventTimestamp: new Date().toISOString()
     },
     {
         id: "RIG-R&D-TMP-004",
-        value: 6
+        value: 6,
+        eventTimestamp: new Date().toISOString()
     }
 ]
 

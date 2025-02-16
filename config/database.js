@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
-const connectionString = process.env.DB_URI;
+const config = require("../config/config");
+const connectionString = config.get("connectionString")
 const client = new MongoClient(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

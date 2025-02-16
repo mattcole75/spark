@@ -6,10 +6,12 @@ const moment = require('moment');
 
 const postSensorData = (req, next) => {
 
-    let data = {
-        ...req.body,
-        timestamp: new Date(req.body.eventTimestamp)
-    }
+    const data = [];
+
+    req.body.forEach(event => {
+        console.log("MCa", event.eventTimestamp);
+        data.push({ ...event, timestamp: new Date(event.eventTimestamp)})
+    });
 
     repository.postSensorData(data, (err, data) => {
         if(err) {

@@ -4,7 +4,7 @@ Node Express MongoDB Apache  server build for Spark on AWS.
 ## AWS Setup
 1. Use Amazon’s lightsail and spin up a debian 10 linux server.
 2. Configure the instance name and networking to assign a static IP Address.
-3. Create a new SSH keypair and download your pc if you have not already done so.
+3. Create a new SSH keypair and download to your pc if you have not already done so.
 
 ## SSH Test
 using your favourite terminal use the following command to start a session:
@@ -30,7 +30,7 @@ Enter a super user session:
 ```
 sudo -s
 ```
-*Note: sometimes the installation executes a command without sudo and crashed the installation. sudo -s, places the terminal into a super user (root #) state.*
+*Note: sometimes the installation executes a command without sudo and crashes the installation. sudo -s, places the terminal into a super user (root #) state.*
 
 Download and install the packages:
 ```
@@ -116,7 +116,7 @@ Set the admin db as the authentication db
 mongosh -u admin -p --authenticationDatabase admin
 ```
 ## install the spark API
-The node application will be installed in /opt. This can cause permission issues to follow the instructions carefully!!
+The node application will be installed in /opt. This can cause permission issues so follow the instructions carefully!!
 
 1. Create the spark directory under /opt
 ```
@@ -159,7 +159,7 @@ node server.js &
 ```
 
 ## Install Apache 2
-Update the OS packkage sources in preperation for installing Apache 2
+Update the OS package sources in preperation for installing Apache 2
 ```
 sudo apt update
 ```
@@ -209,8 +209,92 @@ sudo systemctl reload apache2
 
 sudo apache2ctl configtest
 ```
-Apache will now forward server traffic on port 80 to the node application on poer 1337. Test it by pointing your browser a the IP Address; you should get the {"msg":"Server is up!"}.
+Apache will now forward server traffic on port 80 to the node application on port 1337. Test it by pointing your browser a the IP Address; you should get the {"msg":"Server is up!"}.
 
-The only thing left to do is to update the DNS for the metspark.co.uk domain
+### DNS Configuration
+Using the domain providers tools ensure the DNS for the metspark.co.uk domain is point at the correct IP Address
+
+### HTTPS & Certificate Authority
+To enable HTTPS for the spark web service the Certbot ACME client is deployed to enable easy configuration and update/renewal of the Certificate Authority (CA).
+
+## Install snapd
+Snaps are app packages for desktop, cloud and IoT that are easy to install, secure, cross‐platform and dependency‐free. Snaps are discoverable and installable from the Snap Store, the app store for Linux with an audience of millions.
+
+Update the OS package sources in preperation for installing snapd
+```
+sudo apt update
+```
+#### Install snapd:
+```
+sudo apt install snapd
+```
+#### Install the core snap in order to get the latest snapd.
+```
+sudo snap install core
+```
+Note: some snaps require new snapd features and will show an error such as snap "lxd" assumes unsupported features" during install. You can solve this issue by making sure the core snap is installed (snap install core) and it’s the latest version (snap refresh core).
+
+#### Test your system
+```
+sudo snap install hello-world
+```
+The response should similar to the following:
+```
+hello-world 6.3 from Canonical✓ installed
+```
+Test hello-world by logging out and looging back in then, type hello-world:
+```
+hello-world
+Hello World!
+```
+#### Install Certbot
+```
+sudo snap install --classic certbot
+```
+
+#### Prepare the Certbot command
+Execute the following instruction on the command line on the machine to ensure that the certbot command can be run.
+```
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+```
+
+#### Install the certificate
+Run this command to get a certificate and have Certbot edit your apache configuration automatically to serve it, turning on HTTPS access in a single step
+```
+sudo certbot --apache
+```
+
+The new ssl.conf file created by the instalation process should look like the following:
+```
+<IfModule mod_ssl.c>
+  <VirtualHost 127.0.0.1:443 _default_:443>
+    ServerAlias *
+    DocumentRoot /opt/spark/api/0.1
+    <Directory "/opt/spark/api/0.1">
+      Options -Indexes +FollowSymLinks -MultiViews
+      AllowOverride All
+      Require all granted
+    </Directory>
+
+  SSLCertificateFile /etc/letsencrypt/live/metspark.co.uk/fullchain.pem
+  SSLCertificateKeyFile /etc/letsencrypt/live/metspark.co.uk/privkey.pem
+  Include /etc/letsencrypt/options-ssl-apache.conf
+    ProxyPass / http://localhost:1337/
+    ProxyPassReverse / http://localhost:1337/
+  </VirtualHost>
+</IfModule>
+```
+
+#### Test automatic renewal
+The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates automatically before they expire. You will not need to run Certbot again, unless you change your configuration. You can test automatic renewal for your certificates by running this command:
+```
+sudo certbot renew --dry-run
+```
+#### Confirm the configuration
+Apache will now forward server traffic on port 443 to the node application on port 1337.
+Test the SSL by pointing your browser at https://metspark.co.uk; you should get the {"msg":"Server is up!"}.
+
+Note: if this fails then double check your lightsail networking configuration for the server and ensure HTTPS on port 443 is enabled.
+
 
 Thats it you're done!
