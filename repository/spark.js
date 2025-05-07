@@ -39,7 +39,7 @@ const getSensorData = (req, next) => {
         .collection('sensorData')
         .find(query)
         .sort({eventTimestamp: 1})
-        // .limit(200)
+        .limit(2000)
         .toArray(function (err, res) {
         if (err)
             next({ status: 500, msg: err }, null);
