@@ -38,7 +38,7 @@ const getSensorData = (req, next) => {
     dbConnect
         .collection('sensorData')
         .find(query)
-        .sort({eventTimestamp: 1})
+        .sort({timestamp: -1})
         .limit(2000)
         .toArray(function (err, res) {
         if (err)
